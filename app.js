@@ -30,13 +30,14 @@ const layerGroups = {
   geology: L.layerGroup(),
   faults: L.layerGroup(),
   underground: L.layerGroup(),
+  custom: L.layerGroup(),
 };
 
 const cities = [
   { name: 'İstanbul', lat: 41.0082, lng: 28.9784, elev: 320, type: 'Metropol' },
   { name: 'Tokyo', lat: 35.6762, lng: 139.6503, elev: 430, type: 'Metropol' },
   { name: 'New York', lat: 40.7128, lng: -74.006, elev: 310, type: 'Metropol' },
-  { name: 'Lagos', lat: 6.5244, lng: 3.3792, elev: 240, type: 'Kıyı şehri' },
+  { name: 'Lagos', lat: 6.5244, lng: 3.3792, elev: 240, type: 'Kıyı Şehri' },
   { name: 'Kahire', lat: 30.0444, lng: 31.2357, elev: 290, type: 'Ova' },
   { name: 'Santiago', lat: -33.4489, lng: -70.6693, elev: 560, type: 'Dağ kenti' },
   { name: 'Cape Town', lat: -33.9249, lng: 18.4241, elev: 380, type: 'Kıyı' },
@@ -51,8 +52,6 @@ const mountains = [
   { name: 'Everest', lat: 27.9881, lng: 86.925, elev: 8848 },
   { name: 'K2', lat: 35.8817, lng: 76.5144, elev: 8611 },
   { name: 'Kangchenjunga', lat: 27.7025, lng: 88.147, elev: 8586 },
-  { name: 'Lhotse', lat: 27.961, lng: 86.933, elev: 8516 },
-  { name: 'Makalu', lat: 27.8893, lng: 87.0969, elev: 8485 },
   { name: 'Denali', lat: 63.0691, lng: -151.0063, elev: 6190 },
   { name: 'Aconcagua', lat: -32.6532, lng: -70.0109, elev: 6961 },
   { name: 'Kilimanjaro', lat: -3.0674, lng: 37.3556, elev: 5895 },
@@ -65,8 +64,7 @@ const terrains = [
   { name: 'Volkanik Bölge', lat: 10, lng: 120, radius: 750000, color: '#ef4444', opacity: 0.16 },
   { name: 'Dağ Kuşağı', lat: 46, lng: 12, radius: 600000, color: '#a78bfa', opacity: 0.14 },
   { name: 'Ova Alanları', lat: 30, lng: 31, radius: 800000, color: '#38bdf8', opacity: 0.12 },
-  { name: 'Kıta Yaylası', lat: 33, lng: 90, radius: 1000000, color: '#84cc16', opacity: 0.14 },
-  { name: 'Sahara Çölü', lat: 20, lng: 10, radius: 1200000, color: '#fbbf24', opacity: 0.13 },
+  { name: 'Sahra Çölü', lat: 20, lng: 10, radius: 1200000, color: '#fbbf24', opacity: 0.13 },
 ];
 
 const geology = [
@@ -205,84 +203,244 @@ function initUnderground() {
   });
 }
 
-function bindControls() {
-  document.getElementById('baseLayerSelect').addEventListener('change', (e) => {
-    const selected = e.target.value;
-    Object.entries(baseLayers).forEach(([name, layer]) => {
-      if (name === selected) {
-        if (!map.hasLayer(layer)) layer.addTo(map);
-      } else {
-        map.removeLayer(layer);
-      }
-    });
+const hamburger = document.getElementById('hamburgerBtn');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const closeBtn = document.getElementById('closeBtn');
+
+function toggleSidebar() {
+  hamburger.classList.toggle('active');
+  sidebar.classList.toggle('active');
+  overlay.classList.toggle('active');
+}
+
+hamburger.addEventListener('click', toggleSidebar);
+closeBtn.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
+
+document.getElementById('baseLayerSelect').addEventListener('change', (e) => {
+  const selected = e.target.value;
+  Object.entries(baseLayers).forEach(([name, layer]) => {
+    if (name === selected) {
+      if (!map.hasLayer(layer)) layer.addTo(map);
+    } else {
+      map.removeLayer(layer);
+    }
+  });
+});
+
+document.querySelectorAll('[data-layer]').forEach((checkbox) => {
+  checkbox.addEventListener('change', (e) => {
+    const key = e.target.dataset.layer;
+    const layer = layerGroups[key];
+    if (!layer) return;
+    if (e.target.checked) {
+      map.addLayer(layer);
+    } else {
+      map.removeLayer(layer);
+    }
+  });
+});
+
+const elevationRange = document.getElementById('elevationRange');
+const elevationValue = document.getElementById('elevationValue');
+elevationRange.addEventListener('input', (e) => {
+  const level = Number(e.target.value) / 100;
+  elevationValue.textContent = e.target.value + '%';
+
+  layerGroups.cities.eachLayer((layer) => {
+    if (layer instanceof L.CircleMarker) {
+      layer.setStyle({ opacity: 0.4 + level * 0.6 });
+    }
   });
 
-  document.querySelectorAll('[data-layer]').forEach((checkbox) => {
-    checkbox.addEventListener('change', (e) => {
-      const key = e.target.dataset.layer;
-      const layer = layerGroups[key];
-      if (!layer) return;
-      if (e.target.checked) {
-        map.addLayer(layer);
-      } else {
-        map.removeLayer(layer);
-      }
-    });
+  layerGroups.mountains.eachLayer((layer) => {
+    if (layer instanceof L.CircleMarker) {
+      layer.setStyle({ opacity: 0.3 + level * 0.7 });
+    }
   });
+});
 
-  const elevationRange = document.getElementById('elevationRange');
-  elevationRange.addEventListener('input', (e) => {
-    const level = Number(e.target.value) / 100;
-    document.getElementById('elevationValue').textContent = e.target.value + '%';
+document.getElementById('focusGlobal').addEventListener('click', () => {
+  map.setView([20, 0], 2, { animate: true });
+});
 
-    layerGroups.cities.eachLayer((layer) => {
-      if (layer instanceof L.CircleMarker) {
-        layer.setStyle({ opacity: 0.4 + level * 0.6 });
-      }
-    });
+document.getElementById('focusAlps').addEventListener('click', () => {
+  map.setView([46.8, 10.6], 6, { animate: true });
+});
 
-    layerGroups.mountains.eachLayer((layer) => {
-      if (layer instanceof L.CircleMarker) {
-        layer.setStyle({ opacity: 0.3 + level * 0.7 });
-      }
-    });
-  });
+document.getElementById('focusAndes').addEventListener('click', () => {
+  map.setView([-13.2, -72.5], 5, { animate: true });
+});
 
-  document.getElementById('focusGlobal').addEventListener('click', () => {
-    map.setView([20, 0], 2, { animate: true });
-  });
+document.getElementById('focusHimalaya').addEventListener('click', () => {
+  map.setView([28.0, 86.9], 5, { animate: true });
+});
 
-  document.getElementById('focusAlps').addEventListener('click', () => {
-    map.setView([46.8, 10.6], 6, { animate: true });
-  });
+document.querySelectorAll('.map-btn').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('.map-btn').forEach((b) => b.classList.remove('active'));
+    e.target.classList.add('active');
 
-  document.getElementById('focusAndes').addEventListener('click', () => {
-    map.setView([-13.2, -72.5], 5, { animate: true });
-  });
-
-  document.getElementById('focusHimalaya').addEventListener('click', () => {
-    map.setView([28.0, 86.9], 5, { animate: true });
-  });
-
-  document.getElementById('downloadData').addEventListener('click', () => {
-    const data = {
-      terrain: terrains,
-      cities: cities,
-      mountains: mountains,
-      geology: geology,
-      underground: underground,
-      faults: faults,
-      timestamp: new Date().toISOString(),
+    const mapType = e.target.dataset.map;
+    const titles = {
+      global: '🌍 Dünya Haritası',
+      tectonic: '⚡ Tektonik Plakalar',
+      geology: '🪨 Jeolojik Harita',
+      underground: '🔍 Yeraltı Kaynakları',
+      terrain: '🏔️ Topografik Harita',
     };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'terrain-atlas-data.json';
-    a.click();
-    URL.revokeObjectURL(url);
+    document.getElementById('mapTitle').textContent = titles[mapType];
+  });
+});
+
+const fileInput = document.getElementById('fileUpload');
+const uploadStatus = document.getElementById('uploadStatus');
+
+fileInput.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const fileName = file.name.toLowerCase();
+  uploadStatus.textContent = 'Yükleniyor...';
+  uploadStatus.className = 'upload-status';
+
+  try {
+    if (fileName.endsWith('.geojson') || fileName.endsWith('.json')) {
+      const text = await file.text();
+      const geojson = JSON.parse(text);
+      L.geoJSON(geojson, {
+        onEachFeature: (feature, layer) => {
+          if (feature.properties) {
+            layer.bindPopup(`<b>${feature.properties.name || 'Feature'}</b>`);
+          }
+        },
+      }).addTo(layerGroups.custom);
+
+      uploadStatus.textContent = `✓ ${file.name} başarıyla yüklendi`;
+      uploadStatus.className = 'upload-status success';
+      document.querySelector('[data-layer="custom"]').checked = true;
+    } else if (fileName.endsWith('.kml')) {
+      const text = await file.text();
+      const kml = new DOMParser().parseFromString(text, 'application/xml');
+      processKML(kml);
+      uploadStatus.textContent = `✓ ${file.name} başarıyla yüklendi`;
+      uploadStatus.className = 'upload-status success';
+      document.querySelector('[data-layer="custom"]').checked = true;
+    } else if (fileName.endsWith('.kmz')) {
+      const zip = await JSZip.loadAsync(file);
+      let processed = false;
+      for (const [path, zipFile] of Object.entries(zip.files)) {
+        if (path.endsWith('.kml')) {
+          const text = await zipFile.async('text');
+          const kml = new DOMParser().parseFromString(text, 'application/xml');
+          processKML(kml);
+          processed = true;
+          break;
+        }
+      }
+      if (!processed) throw new Error('KMZ içinde KML bulunamadı');
+      uploadStatus.textContent = `✓ ${file.name} başarıyla yüklendi`;
+      uploadStatus.className = 'upload-status success';
+      document.querySelector('[data-layer="custom"]').checked = true;
+    } else {
+      uploadStatus.textContent = 'Desteklenmeyen dosya türü';
+      uploadStatus.className = 'upload-status error';
+    }
+  } catch (err) {
+    uploadStatus.textContent = `Hata: ${err.message}`;
+    uploadStatus.className = 'upload-status error';
+  }
+
+  fileInput.value = '';
+});
+
+function processKML(kml) {
+  const placemarks = kml.querySelectorAll('Placemark');
+  placemarks.forEach((placemark) => {
+    const name = placemark.querySelector('name')?.textContent || 'Marker';
+    const point = placemark.querySelector('Point');
+    const polygon = placemark.querySelector('Polygon');
+    const linestring = placemark.querySelector('LineString');
+
+    if (point) {
+      const coords = point.querySelector('coordinates')?.textContent.trim().split(',');
+      if (coords && coords.length >= 2) {
+        const marker = L.marker([parseFloat(coords[1]), parseFloat(coords[0])]).bindPopup(`<b>${name}</b>`);
+        layerGroups.custom.addLayer(marker);
+      }
+    } else if (polygon) {
+      const coords = polygon.querySelector('outerBoundaryIs coordinates')?.textContent
+        .trim()
+        .split(' ')
+        .map((c) => c.split(',').reverse().slice(0, 2).map(parseFloat));
+      if (coords) {
+        const poly = L.polygon(coords).bindPopup(`<b>${name}</b>`);
+        layerGroups.custom.addLayer(poly);
+      }
+    } else if (linestring) {
+      const coords = linestring.querySelector('coordinates')?.textContent
+        .trim()
+        .split(' ')
+        .map((c) => c.split(',').reverse().slice(0, 2).map(parseFloat));
+      if (coords) {
+        const line = L.polyline(coords).bindPopup(`<b>${name}</b>`);
+        layerGroups.custom.addLayer(line);
+      }
+    }
   });
 }
+
+function downloadFile(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById('downloadGeoJSON').addEventListener('click', () => {
+  const data = {
+    type: 'FeatureCollection',
+    features: [
+      ...cities.map((c) => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [c.lng, c.lat] },
+        properties: c,
+      })),
+      ...mountains.map((m) => ({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [m.lng, m.lat] },
+        properties: m,
+      })),
+    ],
+  };
+  downloadFile(JSON.stringify(data, null, 2), 'terrain-atlas.geojson', 'application/json');
+});
+
+document.getElementById('downloadKML').addEventListener('click', () => {
+  let kml = '<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>';
+  cities.forEach((c) => {
+    kml += `<Placemark><name>${c.name}</name><Point><coordinates>${c.lng},${c.lat}</coordinates></Point></Placemark>`;
+  });
+  kml += '</Document></kml>';
+  downloadFile(kml, 'terrain-atlas.kml', 'application/vnd.google-earth.kml+xml');
+});
+
+document.getElementById('downloadData').addEventListener('click', () => {
+  const data = {
+    cities,
+    mountains,
+    geology,
+    underground,
+    faults,
+    terrains,
+    timestamp: new Date().toISOString(),
+  };
+  downloadFile(JSON.stringify(data, null, 2), 'terrain-atlas-full-data.json', 'application/json');
+});
 
 function init() {
   initTerrain();
@@ -296,8 +454,7 @@ function init() {
     map.addLayer(layer);
   });
 
-  bindControls();
-  console.log('✅ Terrain Atlas initialized successfully');
+  console.log('✅ Terrain Atlas initialized');
 }
 
 init();
