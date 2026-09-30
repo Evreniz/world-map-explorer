@@ -1,134 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Terrain Atlas</title>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwUEQ1Y1iwG5l3Jg4e4rFhCkx7qWq0NAmw2kNQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <div class="app-wrapper">
-      <button class="hamburger" id="hamburgerBtn" aria-label="Menüyü aç">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-          <h1>🗺️ Terrain Atlas</h1>
-          <button class="close-btn" id="closeBtn" aria-label="Menüyü kapat">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
-        <div class="sidebar-content">
-          <div class="section">
-            <h2>📍 Haritalar</h2>
-            <div class="map-selector">
-              <button class="map-btn active" data-map="global">🌍 Dünya</button>
-              <button class="map-btn" data-map="tectonic">⚡ Tektonik</button>
-              <button class="map-btn" data-map="geology">🪨 Jeoloji</button>
-              <button class="map-btn" data-map="underground">🔍 Yeraltı</button>
-              <button class="map-btn" data-map="terrain">🏔️ Topografya</button>
-            </div>
-          </div>
-
-          <div class="section">
-            <label for="baseLayerSelect">📺 Harita Görünümü</label>
-            <select id="baseLayerSelect">
-              <option value="satellite">🛰️ Uydu</option>
-              <option value="topo">🗻 Topografya</option>
-              <option value="dark">🌙 Koyu Dünya</option>
-            </select>
-          </div>
-
-          <div class="section">
-            <h3>🎨 Katmanlar</h3>
-            <div class="layer-toggles">
-              <label><input type="checkbox" data-layer="terrain" checked /> 🏞️ Arazi</label>
-              <label><input type="checkbox" data-layer="cities" checked /> 🏙️ Şehirler</label>
-              <label><input type="checkbox" data-layer="mountains" checked /> ⛰️ Zirveler</label>
-              <label><input type="checkbox" data-layer="geology" checked /> 🪨 Jeoloji</label>
-              <label><input type="checkbox" data-layer="faults" checked /> ⚡ Fay Hatları</label>
-              <label><input type="checkbox" data-layer="underground" checked /> 🔍 Yeraltı</label>
-              <label><input type="checkbox" data-layer="custom" /> 📌 Özel Katmanlar</label>
-            </div>
-          </div>
-
-          <div class="section">
-            <label for="elevationRange">📊 Yükseklik</label>
-            <input id="elevationRange" type="range" min="0" max="100" value="72" />
-            <small id="elevationValue">72%</small>
-          </div>
-
-          <div class="section">
-            <h3>🎯 Bölgeler</h3>
-            <div class="focus-buttons">
-              <button id="focusGlobal">🌎 Dünya</button>
-              <button id="focusAlps">🏔️ Alpler</button>
-              <button id="focusAndes">⛰️ Andes</button>
-              <button id="focusHimalaya">🏔️ Himalaya</button>
-            </div>
-          </div>
-
-          <div class="section">
-            <h3>📁 Dosya Yükleme</h3>
-            <div class="file-upload">
-              <input type="file" id="fileUpload" accept=".kmz,.kml,.geojson,.json" />
-              <label for="fileUpload" class="file-label">
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                KML/KMZ/GeoJSON Yükle
-              </label>
-              <div id="uploadStatus" class="upload-status"></div>
-            </div>
-          </div>
-
-          <div class="section">
-            <h3>💾 İndir</h3>
-            <div class="download-buttons">
-              <button id="downloadGeoJSON">📥 GeoJSON</button>
-              <button id="downloadKML">📥 KML</button>
-              <button id="downloadData">📥 Tüm Veri</button>
-            </div>
-          </div>
-
-          <div class="info-box">
-            <strong>ℹ️ Bilgi</strong>
-            <p>
-              Haritada yer üstü ve yer altı verileri aynı anda görünür. KML/KMZ veya GeoJSON dosyalarını ekleyerek özel katman oluşturabilirsin.
-            </p>
-          </div>
-        </div>
-      </aside>
-
-      <div class="overlay" id="overlay"></div>
-
-      <main class="main-content">
-        <div id="map" class="map-container"></div>
-        <div class="map-title" id="mapTitle">🌍 Dünya Haritası</div>
-      </main>
-    </div>
-
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="./app.js"></script>
-  </body>
-</html>
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terrain Atlas | Ana Sayfa</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <button id="menuBtn" class="icon-btn" aria-label="Kenar menüsünü aç"><i class="fa-solid fa-bars"></i></button>
+    <strong class="brand">🌍 Terrain Atlas</strong>
+    <nav class="top-actions">
+      <button id="fileBtn" class="top-btn"><i class="fa-solid fa-folder-open"></i> File</button>
+      <button id="saveBtn" class="top-btn"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
+      <button id="continueBtn" class="top-btn"><i class="fa-solid fa-rotate-right"></i> Kaldığım yer</button>
+      <input id="fileInput" type="file" hidden accept=".kml,.kmz,.geojson,.json">
+    </nav>
+  </header>
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-head"><h2>Kontrol Merkezi</h2><button id="closeBtn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button></div>
+    <section class="side-section"><button class="side-link active" data-view="home"><i class="fa-solid fa-house"></i> Anasayfa</button><button class="side-link" data-view="profile"><i class="fa-solid fa-user"></i> Profil</button><button class="side-link" data-view="security"><i class="fa-solid fa-shield-halved"></i> Güvenlik Birimi</button></section>
+    <section class="side-section map-views"><h3>Harita görünümleri</h3><button data-map="global">🌍 Dünya</button><button data-map="terrain">🏔️ Topografya</button><button data-map="geology">🪨 Jeoloji</button><button data-map="underground">🔻 Yeraltı</button><button data-map="tectonic">⚡ Faylar</button></section>
+    <section class="side-section"><h3>Katmanlar</h3><label><input type="checkbox" data-layer="cities" checked> Şehirler</label><label><input type="checkbox" data-layer="mountains" checked> Zirveler</label><label><input type="checkbox" data-layer="terrain" checked> Arazi</label><label><input type="checkbox" data-layer="geology" checked> Jeoloji</label><label><input type="checkbox" data-layer="faults"> Fay hatları</label><label><input type="checkbox" data-layer="underground" checked> Yeraltı</label><label><input type="checkbox" data-layer="custom"> Dosyalı katmanlar</label></section>
+    <section class="side-section"><h3>Dosya katmanı</h3><button id="sideFileBtn" class="wide-btn"><i class="fa-solid fa-cloud-arrow-up"></i> KML / KMZ / GeoJSON ekle</button><p id="fileStatus" class="status"></p></section>
+    <section id="securityPanel" class="side-section security-panel hidden"><h3>Güvenlik birimi</h3><p class="muted">Bu bölüm yalnızca yerel demo kayıtlarını gösterir. Gerçek cihaz takibi/API için yetkili sunucu ve açık kullanıcı izni gerekir.</p><div id="loginList"></div><button id="clearLogs" class="danger-btn">Yerel kayıtları temizle</button></section>
+    <section id="profilePanel" class="side-section hidden"><h3>Profil</h3><label>Kullanıcı adı<input id="profileName" value="Harita Kullanıcısı"></label><button id="profileSave" class="wide-btn">Profili kaydet</button></section>
+  </aside>
+  <div id="overlay"></div>
+  <main class="workspace">
+    <div class="map-toolbar"><span id="pageTitle">Anasayfa · Dünya Haritası</span><div><button id="zoomIn" class="tool-btn">＋</button><button id="zoomOut" class="tool-btn">−</button><button id="panLeft" class="tool-btn">←</button><button id="panRight" class="tool-btn">→</button><select id="baseLayer"><option value="satellite">Uydu</option><option value="topo">Topografya</option><option value="dark">Koyu</option></select></div></div>
+    <div id="map"></div>
+  </main>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script><script src="app.js"></script>
+</body></html>
