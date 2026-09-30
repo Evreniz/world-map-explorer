@@ -15,11 +15,9 @@
 ### Yer Altı Katmanları
 - 🪨 **Jeolojik Alanlar** - Granit, bazalt, kretase, bakır ve demir yatakları
 - ⚡ **Fay Hatları** - Tektonik sınırlar ve deprem bölgeleri
-- 🔻 **Yeraltı Kaynakları** - Maden, petrol/gaz, derinlik ve malzeme bilgileri
 
 ### İnteraktif Kontroller
 - 📍 Harita görünümü seçimi (3 seçenek)
-- 🎯 Katman aç/kapat toggles (6 katman)
 - 📊 Yükseklik görünürlüğü sürgüsü
 - 🌎 Bölgesel odaklama butonları (Dünya, Alpler, Andes, Himalaya)
 - 💾 Veri dosyaları indirme
