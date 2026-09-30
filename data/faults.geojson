@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Ring Fault Zone" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-15, -75], [0, -80], [20, -110]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Pacific Rift" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[35, 140], [40, 145], [48, 150]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "East Rift" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[20, 145], [25, 150], [30, 155]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "African Rift" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[20, 0], [30, 15], [38, 25]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Euroasian Fault" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[-2, 35], [8, 42], [18, 48]]
+      }
+    }
+  ]
+}
