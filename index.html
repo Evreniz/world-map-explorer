@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terrain Atlas - Dünya Haritası</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="control-panel">
+        <div class="panel-header">
+          <span class="eyebrow">🌍 MULTI-LAYER GLOBAL MAP</span>
+          <h1>Terrain Atlas</h1>
+          <p class="subtitle">Yer Üstü & Yer Altı Haritası</p>
+        </div>
+
+        <div class="control-group">
+          <label for="baseLayerSelect">📍 Harita Görünümü</label>
+          <select id="baseLayerSelect">
+            <option value="satellite">🛰️ Uydu Görünümü</option>
+            <option value="topo">🗻 Topografya</option>
+            <option value="dark">🌙 Koyu Dünya</option>
+          </select>
+        </div>
+
+        <div class="control-group checkboxes">
+          <h2>🎯 Katmanlar</h2>
+          <label><input type="checkbox" data-layer="terrain" checked /> 🏔️ Arazi Örtüsü</label>
+          <label><input type="checkbox" data-layer="cities" checked /> 🏙️ Şehirler</label>
+          <label><input type="checkbox" data-layer="mountains" checked /> ⛰️ Zirveler</label>
+          <label><input type="checkbox" data-layer="geology" checked /> 🪨 Jeoloji</label>
+          <label><input type="checkbox" data-layer="faults" checked /> ⚡ Fay Hatları</label>
+          <label><input type="checkbox" data-layer="underground" checked /> 🔻 Yeraltı Kaynakları</label>
+        </div>
+
+        <div class="control-group">
+          <label for="elevationRange">📊 Yükseklik Görünürlüğü</label>
+          <input id="elevationRange" type="range" min="0" max="100" value="72" />
+          <small id="elevationValue">72%</small>
+        </div>
+
+        <div class="control-group buttons">
+          <button id="focusGlobal">🌎 Dünya</button>
+          <button id="focusAlps">🏔️ Alpler</button>
+          <button id="focusAndes">⛰️ Andes</button>
+          <button id="focusHimalaya">🗻 Himalaya</button>
+          <button id="downloadData" class="secondary">💾 Veri İndir</button>
+        </div>
+
+        <div class="info-box">
+          <strong>ℹ️ Bilgi</strong>
+          <p>Haritada yer üstü ve yer altı verileri görüntülenir. Zoom yaparak detayları inceleyebilirsiniz.</p>
+        </div>
+      </aside>
+
+      <main id="map" aria-label="Dünya haritası"></main>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
