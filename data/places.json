@@ -1,0 +1,39 @@
+[
+  { "name": "Avrupa", "lon": 18, "lat": 54, "type": "region", "region": "Avrupa" },
+  { "name": "Asya", "lon": 90, "lat": 42, "type": "region", "region": "Asya" },
+  { "name": "Orta Doğu", "lon": 40, "lat": 31, "type": "region", "region": "Asya" },
+  { "name": "Doğu Asya", "lon": 120, "lat": 36, "type": "region", "region": "Asya" },
+  { "name": "Güney Asya", "lon": 78, "lat": 22, "type": "region", "region": "Asya" },
+
+  { "name": "İstanbul", "lon": 28.9784, "lat": 41.0082, "type": "city", "region": "Avrupa" },
+  { "name": "Ankara", "lon": 32.8597, "lat": 39.9334, "type": "city", "region": "Avrupa" },
+  { "name": "Berlin", "lon": 13.405, "lat": 52.52, "type": "city", "region": "Avrupa" },
+  { "name": "Paris", "lon": 2.3522, "lat": 48.8566, "type": "city", "region": "Avrupa" },
+  { "name": "Londra", "lon": -0.1276, "lat": 51.5072, "type": "city", "region": "Avrupa" },
+  { "name": "Rome", "lon": 12.4964, "lat": 41.9028, "type": "city", "region": "Avrupa" },
+  { "name": "Moskova", "lon": 37.6173, "lat": 55.7558, "type": "city", "region": "Avrupa" },
+
+  { "name": "Tokyo", "lon": 139.6503, "lat": 35.6762, "type": "city", "region": "Asya" },
+  { "name": "Seoul", "lon": 126.978, "lat": 37.5665, "type": "city", "region": "Asya" },
+  { "name": "Beijing", "lon": 116.4074, "lat": 39.9042, "type": "city", "region": "Asya" },
+  { "name": "Shanghai", "lon": 121.4737, "lat": 31.2304, "type": "city", "region": "Asya" },
+  { "name": "Bangkok", "lon": 100.5018, "lat": 13.7563, "type": "city", "region": "Asya" },
+  { "name": "Dubai", "lon": 55.2708, "lat": 25.2048, "type": "city", "region": "Asya" },
+  { "name": "Delhi", "lon": 77.209, "lat": 28.6139, "type": "city", "region": "Asya" },
+  { "name": "Singapore", "lon": 103.8198, "lat": 1.3521, "type": "city", "region": "Asya" },
+  { "name": "Hong Kong", "lon": 114.1694, "lat": 22.3193, "type": "city", "region": "Asya" },
+
+  { "name": "Kadıköy", "lon": 29.037, "lat": 40.981, "type": "district", "region": "Avrupa" },
+  { "name": "Beşiktaş", "lon": 29.008, "lat": 41.042, "type": "district", "region": "Avrupa" },
+  { "name": "Fatih", "lon": 28.958, "lat": 41.012, "type": "district", "region": "Avrupa" },
+  { "name": "Soho", "lon": -0.136, "lat": 51.513, "type": "district", "region": "Avrupa" },
+  { "name": "Montmartre", "lon": 2.343, "lat": 48.886, "type": "district", "region": "Avrupa" },
+  { "name": "Shibuya", "lon": 139.7006, "lat": 35.6595, "type": "district", "region": "Asya" },
+  { "name": "Shinjuku", "lon": 139.7006, "lat": 35.6938, "type": "district", "region": "Asya" },
+  { "name": "Connaught Place", "lon": 77.2167, "lat": 28.6328, "type": "district", "region": "Asya" },
+
+  { "name": "Sultanahmet", "lon": 28.977, "lat": 41.0059, "type": "neighborhood", "region": "Avrupa" },
+  { "name": "Cihangir", "lon": 28.984, "lat": 41.035, "type": "neighborhood", "region": "Avrupa" },
+  { "name": "Asakusa", "lon": 139.7967, "lat": 35.7148, "type": "neighborhood", "region": "Asya" },
+  { "name": "Camden Town", "lon": -0.142, "lat": 51.539, "type": "neighborhood", "region": "Avrupa" }
+]
